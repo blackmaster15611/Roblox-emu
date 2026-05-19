@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox EMU - Web Player</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/player.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">🎮 Roblox EMU</h1>
+                <nav class="nav">
+                    <button id="homeBtn" class="nav-btn active">Home</button>
+                    <button id="libraryBtn" class="nav-btn">Library</button>
+                    <button id="settingsBtn" class="nav-btn">Settings</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Screen -->
+            <section id="homeScreen" class="screen active">
+                <div class="hero">
+                    <h2>Welcome to Roblox EMU</h2>
+                    <p>Play Roblox games directly in your browser</p>
+                    <button id="startBtn" class="btn btn-primary">Browse Games</button>
+                </div>
+            </section>
+
+            <!-- Library Screen -->
+            <section id="libraryScreen" class="screen">
+                <h2>Game Library</h2>
+                <div class="games-grid" id="gamesGrid">
+                    <!-- Games will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Player Screen -->
+            <section id="playerScreen" class="screen">
+                <div class="player-container">
+                    <div class="game-window">
+                        <div class="game-header">
+                            <span id="gameTitle">Loading...</span>
+                            <div class="game-controls">
+                                <button id="fullscreenBtn" class="control-btn" title="Fullscreen">⛶</button>
+                                <button id="closeGameBtn" class="control-btn" title="Exit">✕</button>
+                            </div>
+                        </div>
+                        <div class="game-content">
+                            <canvas id="gameCanvas" width="800" height="600"></canvas>
+                            <div class="game-overlay" id="gameOverlay">
+                                <div class="overlay-content">
+                                    <p id="overlayText">Loading game...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="game-controls-bottom">
+                            <button id="playBtn" class="control-btn">▶ Play</button>
+                            <button id="pauseBtn" class="control-btn">⏸ Pause</button>
+                            <button id="resumeBtn" class="control-btn" style="display:none;">▶ Resume</button>
+                            <span id="gameStats" class="game-stats">FPS: 60 | Players: 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Sidebar -->
+                    <aside class="player-sidebar">
+                        <div class="sidebar-panel">
+                            <h3>Game Info</h3>
+                            <div class="info-item">
+                                <label>Title:</label>
+                                <p id="infoTitle">-</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Players Online:</label>
+                                <p id="infoPlayers">0</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Rating:</label>
+                                <p id="infoRating">⭐ 0/5</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Description:</label>
+                                <p id="infoDescription">-</p>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-panel">
+                            <h3>Keyboard Controls</h3>
+                            <ul class="controls-list">
+                                <li><strong>W/A/S/D</strong> - Move</li>
+                                <li><strong>Space</strong> - Jump</li>
+                                <li><strong>Mouse</strong> - Look Around</li>
+                                <li><strong>E</strong> - Interact</li>
+                                <li><strong>ESC</strong> - Menu</li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-panel">
+                            <h3>Chat</h3>
+                            <div class="chat-box" id="chatBox">
+                                <div class="chat-message">
+                                    <strong>System:</strong> Welcome to the game!
+                                </div>
+                            </div>
+                            <input type="text" id="chatInput" class="chat-input" placeholder="Type message...">
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            <!-- Settings Screen -->
+            <section id="settingsScreen" class="screen">
+                <div class="settings-container">
+                    <h2>Settings</h2>
+                    
+                    <div class="settings-group">
+                        <h3>Graphics</h3>
+                        <label>
+                            <input type="range" id="qualitySlider" min="1" max="5" value="3">
+                            Graphics Quality: <span id="qualityValue">High</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" id="vSyncToggle" checked>
+                            V-Sync Enabled
+                        </label>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Audio</h3>
+                        <label>
+                            <input type="range" id="volumeSlider" min="0" max="100" value="80">
+                            Volume: <span id="volumeValue">80%</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" id="soundToggle" checked>
+                            Sound Effects
+                        </label>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Gameplay</h3>
+                        <label>
+                            <input type="checkbox" id="chatToggle" checked>
+                            Enable Chat
+                        </label>
+                        <label>
+                            <input type="checkbox" id="notificationsToggle" checked>
+                            Enable Notifications
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="location.reload()">Save & Reload</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Game Card Modal -->
+    <div id="gameModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="Game">
+                <div class="modal-info">
+                    <h2 id="modalTitle">-</h2>
+                    <p id="modalDescription">-</p>
+                    <p><strong>Players:</strong> <span id="modalPlayers">0</span></p>
+                    <p><strong>Rating:</strong> <span id="modalRating">0</span>⭐</p>
+                    <button id="playGameBtn" class="btn btn-primary">Play Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
